@@ -1,0 +1,912 @@
+import React, { useState, useRef, useEffect } from 'react';
+import { 
+  BookOpen, 
+  Image as ImageIcon, 
+  HelpCircle, 
+  CheckCircle2, 
+  XCircle, 
+  Award, 
+  ArrowRight, 
+  Sparkles, 
+  Send, 
+  Bot, 
+  RefreshCw, 
+  BookOpenCheck,
+  Volume2,
+  Info
+} from 'lucide-react';
+
+export default function App() {
+  const [activeTab, setActiveTab] = useState('materi');
+  
+  // Background URL yang ditranslasikan ke direct link image Imgur agar dapat dimuat dengan lancar
+  const bgImageUrl = "https://i.imgur.com/gwvSUmh.jpg"; 
+
+  return (
+    <div 
+      className="min-h-screen relative font-sans text-slate-800 overflow-x-hidden selection:bg-orange-200"
+      style={{
+        backgroundImage: `url(${bgImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+      }}
+    >
+      {/* Overlay Gelap Transparan di seluruh layar untuk meningkatkan kontras teks */}
+      <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-0"></div>
+
+      {/* Konten Utama Aplikasi */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Header & Navigation */}
+        <header className="bg-orange-600/90 text-white shadow-xl sticky top-0 z-50 backdrop-blur-md border-b border-orange-500/30">
+          <div className="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl filter drop-shadow-md animate-pulse">🏛️</span>
+              <div>
+                <h1 className="text-2xl font-black tracking-tight leading-tight drop-shadow-sm">Warisan Budaya Kita</h1>
+                <p className="text-orange-100 text-xs sm:text-sm font-medium">Media Belajar Kelas 5 MI • Dukungan AI ✨</p>
+              </div>
+            </div>
+            
+            <nav className="flex flex-wrap justify-center bg-orange-800/40 p-1 rounded-full gap-1 border border-white/10">
+              <button 
+                onClick={() => setActiveTab('materi')}
+                className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${activeTab === 'materi' ? 'bg-white text-orange-700 shadow-lg scale-105' : 'text-white hover:bg-orange-700/50'}`}
+              >
+                <BookOpen size={15} /> Materi
+              </button>
+              <button 
+                onClick={() => setActiveTab('galeri')}
+                className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${activeTab === 'galeri' ? 'bg-white text-orange-700 shadow-lg scale-105' : 'text-white hover:bg-orange-700/50'}`}
+              >
+                <ImageIcon size={15} /> Galeri
+              </button>
+              <button 
+                onClick={() => setActiveTab('kuis')}
+                className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${activeTab === 'kuis' ? 'bg-white text-orange-700 shadow-lg scale-105' : 'text-white hover:bg-orange-700/50'}`}
+              >
+                <HelpCircle size={15} /> Kuis
+              </button>
+              <button 
+                onClick={() => setActiveTab('tanya-ai')}
+                className={`flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-extrabold transition-all duration-300 ${activeTab === 'tanya-ai' ? 'bg-gradient-to-r from-yellow-300 to-amber-300 text-amber-950 shadow-lg scale-105 border border-yellow-400' : 'bg-orange-500/80 hover:bg-orange-600'}`}
+              >
+                <Sparkles size={15} className="text-amber-800 animate-pulse" /> Tanya AI ✨
+              </button>
+            </nav>
+          </div>
+        </header>
+
+        {/* Main Content dengan Glassmorphism agar mengambang indah di atas background */}
+        <main className="max-w-4xl mx-auto px-4 py-8 flex-grow w-full">
+          {activeTab === 'materi' && <MateriSection setActiveTab={setActiveTab} />}
+          {activeTab === 'galeri' && <GaleriSection />}
+          {activeTab === 'kuis' && <KuisSection />}
+          {activeTab === 'tanya-ai' && <TanyaAISection />}
+        </main>
+
+        {/* Footer */}
+        <footer className="bg-orange-950/90 text-orange-200 text-center py-6 border-t border-orange-800/40 backdrop-blur-md">
+          <p className="font-bold">© 2026 Media Pembelajaran Interaktif - Kelas 5 MI</p>
+          <p className="text-xs sm:text-sm mt-1 text-orange-300/80">Mari lestarikan warisan budaya Indonesia bersama AI pintar!</p>
+        </footer>
+      </div>
+    </div>
+  );
+}
+
+function MateriSection({ setActiveTab }) {
+  return (
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Welcome Card dengan Glassmorphism */}
+      <div className="bg-white/95 hover:bg-white/100 transition-all duration-300 rounded-3xl p-6 md:p-8 shadow-2xl border border-orange-200/50 flex flex-col md:flex-row gap-6 items-center">
+        <div className="flex-1">
+          <span className="bg-orange-100 text-orange-800 text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full">
+            Mari Belajar!
+          </span>
+          <h2 className="text-3xl font-black text-orange-700 mt-2 mb-4">Apa itu Warisan Budaya? 🤔</h2>
+          <p className="text-lg leading-relaxed text-slate-700 mb-4">
+            Halo adik-adik kelas 5! <b>Warisan Budaya</b> adalah benda atau tradisi berharga dari masa lalu yang diwariskan dari generasi ke generasi, serta memiliki nilai penting bagi sejarah, ilmu pengetahuan, dan kebudayaan bangsa kita.
+          </p>
+          <div className="inline-block bg-orange-100/80 text-orange-900 px-4 py-2 rounded-xl font-semibold border border-orange-200 text-sm">
+            Sebagai anak bangsa yang sholeh dan sholehah, kita wajib menjaga warisan budaya ini agar tidak punah! 🌟
+          </div>
+        </div>
+        <div className="text-8xl drop-shadow-2xl animate-bounce shrink-0">
+          🇮🇩
+        </div>
+      </div>
+
+      {/* Grid Materi Benda vs Tak Benda */}
+      <div className="grid md:grid-cols-2 gap-6">
+        <div className="bg-gradient-to-br from-teal-50/95 to-emerald-50/95 rounded-3xl p-6 border border-teal-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+          <div className="bg-teal-500 text-white w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-md">🗿</div>
+          <h3 className="text-xl font-bold text-teal-900 mb-2">Warisan Budaya Benda</h3>
+          <p className="text-teal-950/80 mb-4 text-sm leading-relaxed">Warisan budaya yang memiliki wujud fisik nyata, bisa kita lihat, raba, dan dirawat fisiknya secara langsung.</p>
+          <ul className="space-y-2.5">
+            <li className="flex items-center gap-2.5 text-teal-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-teal-500 shrink-0"/> Candi, Benteng, dan Masjid Kuno</li>
+            <li className="flex items-center gap-2.5 text-teal-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-teal-500 shrink-0"/> Pakaian Adat & Senjata Tradisional</li>
+            <li className="flex items-center gap-2.5 text-teal-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-teal-500 shrink-0"/> Alat Musik Tradisional & Prasasti</li>
+          </ul>
+        </div>
+
+        <div className="bg-gradient-to-br from-indigo-50/95 to-blue-50/95 rounded-3xl p-6 border border-indigo-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+          <div className="bg-indigo-500 text-white w-14 h-14 rounded-2xl flex items-center justify-center text-3xl mb-4 shadow-md">🎵</div>
+          <h3 className="text-xl font-bold text-indigo-900 mb-2">Warisan Tak Benda</h3>
+          <p className="text-indigo-950/80 mb-4 text-sm leading-relaxed">Warisan budaya yang berupa keahlian, tradisi, cerita lisan, atau ekspresi seni yang hidup dalam tradisi luhur masyarakat.</p>
+          <ul className="space-y-2.5">
+            <li className="flex items-center gap-2.5 text-indigo-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-indigo-500 shrink-0"/> Tarian, Nyanyian & Pantun Daerah</li>
+            <li className="flex items-center gap-2.5 text-indigo-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-indigo-500 shrink-0"/> Cerita Rakyat, Dongeng & Legenda</li>
+            <li className="flex items-center gap-2.5 text-indigo-900 text-sm font-semibold"><CheckCircle2 size={18} className="text-indigo-500 shrink-0"/> Bahasa Daerah & Adat Istiadat</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Bagian Akulturasi Budaya */}
+      <div className="bg-white/95 rounded-3xl p-6 md:p-8 shadow-2xl border border-orange-200/50">
+        <h2 className="text-2xl font-black text-orange-700 mb-4 flex items-center gap-2">
+          🕌 Akulturasi Budaya dan Dakwah Islam
+        </h2>
+        <p className="text-lg leading-relaxed text-slate-700 mb-4">
+          Tahukah kamu? Para ulama penyebar Islam terdahulu, seperti <b>Wali Songo</b>, menggunakan kesenian lokal Nusantara untuk mengenalkan ajaran Islam secara ramah dan penuh cinta. Metode luar biasa ini disebut <b>akulturasi</b>!
+        </p>
+        <div className="grid sm:grid-cols-2 gap-4 mt-6">
+          <div className="bg-orange-50/80 p-5 rounded-2xl border border-orange-100 shadow-sm">
+            <h4 className="font-extrabold text-orange-950 flex justify-between items-center mb-2"><span>Wayang Kulit</span> 🎭</h4>
+            <p className="text-sm text-slate-700 leading-relaxed"><b>Sunan Kalijaga</b> menyisipkan karakter mulia, cerita keislaman, dan nilai-nilai akhlak Islami ke dalam pertunjukan wayang kulit agar mudah diterima masyarakat.</p>
+          </div>
+          <div className="bg-orange-50/80 p-5 rounded-2xl border border-orange-100 shadow-sm">
+            <h4 className="font-extrabold text-orange-950 flex justify-between items-center mb-2"><span>Masjid Menara Kudus</span> 🕌</h4>
+            <p className="text-sm text-slate-700 leading-relaxed"><b>Sunan Kudus</b> membangun menara masjid menyerupai bentuk candi Hindu sebagai simbol toleransi, dakwah damai, dan penghormatan budaya setempat.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Button Actions */}
+      <div className="text-center flex flex-col sm:flex-row justify-center gap-4 pt-4">
+        <button 
+          onClick={() => setActiveTab('galeri')}
+          className="inline-flex items-center justify-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-black py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 text-sm sm:text-base"
+        >
+          Lihat Contoh di Galeri <ArrowRight size={20} />
+        </button>
+        <button 
+          onClick={() => setActiveTab('tanya-ai')}
+          className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black py-4 px-8 rounded-full shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 text-sm sm:text-base"
+        >
+          Eksplorasi dengan AI ✨ <Sparkles size={18} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function GaleriSection() {
+  const galeriData = [
+    {
+      id: 1,
+      nama: "Batik",
+      tipe: "Tak Benda (Keterampilan)",
+      ikon: "https://i.imgur.com/g9N6nZf.jpg",
+      isImage: true,
+      deskripsi: "Seni lukis kain menggunakan canting dan lilin (malam). Diakui UNESCO sejak 2009 sebagai warisan kemanusiaan karena keindahan filosofinya.",
+      warna: "bg-rose-50/95 border-rose-200 text-rose-900"
+    },
+    {
+      id: 2,
+      nama: "Wayang Kulit",
+      tipe: "Tak Benda",
+      ikon: "🎭",
+      deskripsi: "Seni pertunjukan bayangan kulit kayu/hewan purba yang dipimpin oleh Dalang. Dipakai Sunan Kalijaga untuk media dakwah keislaman.",
+      warna: "bg-amber-50/95 border-amber-200 text-amber-900"
+    },
+    {
+      id: 3,
+      nama: "Masjid Menara Kudus",
+      tipe: "Benda",
+      ikon: "🕌",
+      deskripsi: "Bangunan bersejarah peninggalan Sunan Kudus yang memadukan arsitektur Islam dengan corak bangunan candi Hindu Jawa Kuno.",
+      warna: "bg-emerald-50/95 border-emerald-200 text-emerald-900"
+    },
+    {
+      id: 4,
+      nama: "Candi Borobudur",
+      tipe: "Benda",
+      ikon: "https://i.imgur.com/vVFo6l8.jpg",
+      isImage: true,
+      deskripsi: "Candi Buddha terbesar di dunia yang terletak di Magelang, Jawa Tengah. Memiliki ratusan patung Buddha dan relief kisah kehidupan kuno.",
+      warna: "bg-slate-50/95 border-slate-300 text-slate-900"
+    },
+    {
+      id: 5,
+      nama: "Angklung",
+      tipe: "Benda & Tak Benda",
+      ikon: "🎵",
+      deskripsi: "Alat musik khas Jawa Barat yang dibuat dari bambu khusus. Menghasilkan getaran nada harmonis saat digoyangkan secara bersama-sama.",
+      warna: "bg-lime-50/95 border-lime-200 text-lime-900"
+    },
+    {
+      id: 6,
+      nama: "Tari Saman",
+      tipe: "Tak Benda",
+      ikon: "💃",
+      deskripsi: "Tari asal dataran tinggi Gayo, Aceh. Mengutamakan kekompakan gerakan, tepuk dada, dan lantunan syair selawat islami yang penuh semangat.",
+      warna: "bg-cyan-50/95 border-cyan-200 text-cyan-900"
+    }
+  ];
+
+  return (
+    <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="text-center mb-8 bg-white/90 p-6 rounded-3xl border border-orange-100 shadow-md">
+        <h2 className="text-3xl font-black text-orange-700 mb-2">Galeri Warisan Budaya</h2>
+        <p className="text-slate-600 font-medium">Kenali keunikan dan keindahan kekayaan budaya luhur bangsa kita!</p>
+      </div>
+
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {galeriData.map((item) => (
+          <div 
+            key={item.id} 
+            className={`rounded-3xl p-6 border shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 flex flex-col items-center text-center ${item.warna}`}
+          >
+            {}
+            <div className="text-6xl mb-4 bg-white/70 w-24 h-24 rounded-full flex items-center justify-center shadow-inner overflow-hidden border-2 border-white/80">
+              {item.isImage ? (
+                <img 
+                  src={item.ikon} 
+                  alt={item.nama} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = "https://placehold.co/100x100/ea580c/ffffff?text=🏛️";
+                  }}
+                />
+              ) : (
+                item.ikon
+              )}
+            </div>
+            <h3 className="text-xl font-bold mb-1 leading-tight">{item.nama}</h3>
+            <span className="inline-block px-3 py-1 bg-white/70 rounded-full text-xs font-bold mb-3 border border-white/40">
+              {item.tipe}
+            </span>
+            <p className="text-sm leading-relaxed opacity-90 font-medium">
+              {item.deskripsi}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function KuisSection() {
+  const soalKuis = [
+    {
+      id: 1,
+      pertanyaan: "Warisan budaya yang wujudnya tidak dapat dipegang langsung tetapi memiliki nilai tradisi dan keahlian luhur (seperti tarian) disebut warisan budaya...",
+      pilihan: ["Benda", "Tak Benda", "Modern", "Mancanegara"],
+      jawabanBenar: 1
+    },
+    {
+      id: 2,
+      pertanyaan: "Ulama Wali Songo yang sangat mahir menyebarkan dakwah Islam dengan melahirkan seni pewayangan yang disisipi ajaran akhlak mulia adalah...",
+      pilihan: ["Sunan Kudus", "Sunan Ampel", "Sunan Kalijaga", "Sunan Giri"],
+      jawabanBenar: 2
+    },
+    {
+      id: 3,
+      pertanyaan: "Masjid Menara Kudus dirancang memiliki bentuk mirip candi Hindu Jawa Timur. Konsep arsitektur penyatuan dua budaya damai ini disebut...",
+      pilihan: ["Kolonisasi", "Akulturasi (Pencampuran)", "Modernisasi", "Asimilasi Paksa"],
+      jawabanBenar: 1
+    },
+    {
+      id: 4,
+      pertanyaan: "Alat musik bambu khas Jawa Barat yang cara memainkannya digetarkan hingga berbunyi merdu adalah...",
+      pilihan: ["Gamelan", "Sasando", "Kolintang", "Angklung"],
+      jawabanBenar: 3
+    },
+    {
+      id: 5,
+      pertanyaan: "Sikap luhur yang benar sebagai murid MI Kelas 5 dalam menghargai perbedaan seni budaya di Indonesia adalah...",
+      pilihan: ["Mempelajari, mencintai dan melestarikannya", "Mengabaikan saja karena menganggapnya kuno", "Minder dan malu karena tidak modern", "Hanya menyukai budaya modern luar negeri"],
+      jawabanBenar: 0
+    }
+  ];
+
+  const [jawabanUser, setJawabanUser] = useState({});
+  const [sudahSubmit, setSudahSubmit] = useState(false);
+  const [skor, setSkor] = useState(0);
+
+  const handlePilihJawaban = (soalId, indexPilihan) => {
+    if (sudahSubmit) return;
+    setJawabanUser({
+      ...jawabanUser,
+      [soalId]: indexPilihan
+    });
+  };
+
+  const periksaKuis = () => {
+    let hitungBenar = 0;
+    soalKuis.forEach((soal) => {
+      if (jawabanUser[soal.id] === soal.jawabanBenar) {
+        hitungBenar += 1;
+      }
+    });
+    setSkor(hitungBenar * 20); // 5 soal, 20 poin per soal
+    setSudahSubmit(true);
+  };
+
+  const ulangiKuis = () => {
+    setJawabanUser({});
+    setSudahSubmit(false);
+    setSkor(0);
+  };
+
+  const semuaTerjawab = Object.keys(jawabanUser).length === soalKuis.length;
+
+  return (
+    <div className="max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="text-center mb-8 bg-white/90 p-6 rounded-3xl border border-orange-100 shadow-md">
+        <h2 className="text-3xl font-black text-orange-700 mb-2">Kuis Pintar Budaya 📝</h2>
+        <p className="text-slate-600 font-medium">Uji pemahaman belajarmu tentang warisan budaya tanah air!</p>
+      </div>
+
+      {!sudahSubmit ? (
+        <div className="space-y-6">
+          {soalKuis.map((soal, index) => (
+            <div key={soal.id} className="bg-white/95 p-6 rounded-3xl shadow-lg border border-orange-100">
+              <h3 className="text-lg font-bold text-slate-800 mb-4">
+                <span className="text-orange-500 mr-2">{index + 1}.</span> 
+                {soal.pertanyaan}
+              </h3>
+              <div className="space-y-3">
+                {soal.pilihan.map((pilihan, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handlePilihJawaban(soal.id, idx)}
+                    className={`w-full text-left px-5 py-3.5 rounded-2xl border-2 transition-all duration-200 flex items-center ${
+                      jawabanUser[soal.id] === idx 
+                        ? 'border-orange-500 bg-orange-50 text-orange-800 font-bold shadow-md' 
+                        : 'border-slate-100 hover:border-orange-200 hover:bg-orange-50/50 text-slate-700'
+                    }`}
+                  >
+                    <span className="inline-block w-7 h-7 rounded-full border border-current text-center leading-6 mr-3 text-sm font-bold shrink-0">
+                      {String.fromCharCode(65 + idx)}
+                    </span>
+                    <span className="text-sm sm:text-base">{pilihan}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <div className="text-center pt-4">
+            <button
+              onClick={periksaKuis}
+              disabled={!semuaTerjawab}
+              className={`py-4 px-12 rounded-full font-black text-lg shadow-lg transition-all transform duration-300 ${
+                semuaTerjawab 
+                  ? 'bg-orange-600 hover:bg-orange-700 text-white hover:shadow-2xl hover:-translate-y-1' 
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              Kumpulkan Jawaban 🚀
+            </button>
+            {!semuaTerjawab && (
+              <p className="text-sm font-bold text-slate-200 mt-3 drop-shadow-md">
+                Selesaikan semua pertanyaan di atas terlebih dahulu ya!
+              </p>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-white/95 p-8 rounded-3xl shadow-2xl border-2 border-orange-200 text-center animate-in zoom-in-95">
+          <div className="w-24 h-24 mx-auto bg-orange-100 rounded-full flex items-center justify-center mb-6">
+            <Award className="text-orange-500 w-12 h-12" />
+          </div>
+          <h2 className="text-3xl font-black text-slate-800 mb-2">Nilaimu Sudah Keluar! 🎉</h2>
+          <p className="text-lg text-slate-600 font-semibold mb-6">Alhamdulillah, kerja keras yang luar biasa:</p>
+          <div className="text-7xl font-black text-orange-600 mb-8">
+            {skor}
+            <span className="text-2xl text-slate-400 font-semibold">/100</span>
+          </div>
+          
+          <div className="text-left bg-slate-50 p-6 rounded-2xl border border-slate-100 mb-8 space-y-4">
+            <h3 className="font-bold text-slate-700 border-b pb-2 flex items-center gap-2">
+              <Info size={18} className="text-orange-500"/> Kunci Jawaban & Pembahasan Singkat:
+            </h3>
+            {soalKuis.map((soal, index) => {
+              const jawabanUserBenar = jawabanUser[soal.id] === soal.jawabanBenar;
+              return (
+                <div key={soal.id} className="flex gap-3 items-start">
+                  <div className="mt-1 shrink-0">
+                    {jawabanUserBenar ? (
+                      <CheckCircle2 className="text-emerald-500 w-5 h-5" />
+                    ) : (
+                      <XCircle className="text-rose-500 w-5 h-5" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-sm text-slate-700"><strong>Soal {index + 1}:</strong> {soal.pertanyaan}</p>
+                    <p className="text-sm font-bold mt-1 text-emerald-700">
+                      Jawaban Benar: {soal.pilihan[soal.jawabanBenar]}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <button
+            onClick={ulangiKuis}
+            className="bg-orange-100 hover:bg-orange-200 text-orange-900 font-bold py-3.5 px-10 rounded-full transition-colors shadow-md"
+          >
+            Ulangi Kuis 🔄
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TanyaAISection() {
+  const [aiTab, setAiTab] = useState('chat'); // 'chat' atau 'kuis'
+  const [chatHistory, setChatHistory] = useState([
+    { role: 'model', text: 'Assalamu\'alaikum sahabat hebat! Aku Kak Aisha, asisten belajar AI pribadimu. Hari ini mau bertanya apa tentang Warisan Budaya Nusantara kita yang kaya sejarah ini? 🌸' }
+  ]);
+  const [inputText, setInputText] = useState('');
+  const [isChatLoading, setIsChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+
+  // Kuis Kustom AI State
+  const [quizTopic, setQuizTopic] = useState('');
+  const [isQuizLoading, setIsQuizLoading] = useState(false);
+  const [customQuiz, setCustomQuiz] = useState([]);
+  const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [quizScore, setQuizScore] = useState(0);
+  const [isQuizFinished, setIsQuizFinished] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatHistory]);
+
+  const handleSuggest = (text) => {
+    setInputText(text);
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!inputText.trim() || isChatLoading) return;
+
+    const userMessage = inputText.trim();
+    setInputText('');
+    setChatHistory((prev) => [...prev, { role: 'user', text: userMessage }]);
+    setIsChatLoading(true);
+
+    const chatSystemPrompt = `Kamu adalah "Kak Aisha", asisten belajar AI yang ramah, ceria, dan berpengetahuan luas untuk anak kelas 5 Madrasah Ibtidaiyah (MI) berusia 10-11 tahun.
+Tugasmu adalah menjawab pertanyaan anak-anak seputar "Warisan Budaya Indonesia" (baik benda maupun tak benda), adat istiadat, sejarah nusantara, dan akulturasi budaya Islam (seperti dakwah Wali Songo, seni kaligrafi, arsitektur masjid kuno).
+Aturan berkomunikasi:
+1. Gunakan bahasa Indonesia yang santun, kasual, penuh semangat, dan mudah dipahami anak-anak. Panggil mereka dengan sebutan "adik-adik", "sahabat budaya", atau "anak hebat".
+2. Sering-sering gunakan kata-kata positif bernuansa islami seperti "Maa Syaa Allah", "Alhamdulillah", "Barakallah", dan "Subhanallah" jika sesuai konteks.
+3. Berikan jawaban yang ringkas namun informatif (maksimal 2-3 paragraf pendek) agar mereka tidak bosan membaca. Gunakan emoji yang menarik!
+4. Jika siswa bertanya di luar topik budaya nusantara atau pelajaran sejarah Islam, ingatkan mereka dengan lembut untuk kembali fokus pada keindahan budaya Indonesia.`;
+
+    try {
+      const historyContext = chatHistory.map((msg) => ({
+        role: msg.role === 'model' ? 'model' : 'user',
+        parts: [{ text: msg.text }]
+      }));
+      
+      historyContext.push({ role: 'user', parts: [{ text: userMessage }] });
+
+      const apiKey = ""; // Disisipkan otomatis oleh Canvas di runtime
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: historyContext,
+          systemInstruction: {
+            parts: [{ text: chatSystemPrompt }]
+          }
+        })
+      });
+
+      const result = await response.json();
+      const aiReply = result.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf sahabat hebat, otak AI Kak Aisha sedang beristirahat sebentar. Coba tanya lagi ya! 😊";
+
+      setChatHistory((prev) => [...prev, { role: 'model', text: aiReply }]);
+    } catch (error) {
+      console.error("Gemini API Error:", error);
+      setChatHistory((prev) => [...prev, { role: 'model', text: "Aduh, sepertinya ada sedikit gangguan jaringan. Mari kita coba lagi sebentar lagi, sahabat hebat! 🚀" }]);
+    } finally {
+      setIsChatLoading(false);
+    }
+  };
+
+  const handleGenerateCustomQuiz = async (e) => {
+    e.preventDefault();
+    if (!quizTopic.trim() || isQuizLoading) return;
+
+    setIsQuizLoading(true);
+    setCustomQuiz([]);
+    setCurrentQuestionIdx(0);
+    setSelectedAnswer(null);
+    setQuizScore(0);
+    setIsQuizFinished(false);
+    setShowExplanation(false);
+
+    const userTopic = quizTopic.trim();
+    const quizSystemPrompt = `Kamu adalah pembuat kuis profesional untuk anak kelas 5 Madrasah Ibtidaiyah (MI). Buatlah tepat 3 soal pilihan ganda tentang topik budaya: "${userTopic}". Kuis harus bernilai edukatif, mendorong anak untuk berpikir kritis, dan mengaitkan kearifan lokal nusantara atau dakwah Wali Songo jika relevan.
+Hasilkan jawaban yang terstruktur dengan format JSON yang sangat ketat berupa array berisi objek soal.`;
+
+    try {
+      const payload = {
+        contents: [{ parts: [{ text: `Buat kuis kustom interaktif tentang: ${userTopic}` }] }],
+        systemInstruction: {
+          parts: [{ text: quizSystemPrompt }]
+        },
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                pertanyaan: { type: "STRING" },
+                pilihan: {
+                  type: "ARRAY",
+                  items: { type: "STRING" }
+                },
+                jawabanBenar: { type: "INTEGER", description: "Indeks dari pilihan jawaban yang benar (0-3)" },
+                pembahasan: { type: "STRING", description: "Penjelasan pendek yang ramah anak, berikan apresiasi Islami (misal: Barakallah) jika mereka sukses menjawab." }
+              },
+              required: ["pertanyaan", "pilihan", "jawabanBenar", "pembahasan"]
+            }
+          }
+        }
+      };
+
+      const apiKey = "";
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+      const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      let cleanText = rawText.trim();
+      if (cleanText.startsWith("```json")) {
+        cleanText = cleanText.substring(7);
+      }
+      if (cleanText.endsWith("```")) {
+        cleanText = cleanText.substring(0, cleanText.length - 3);
+      }
+      cleanText = cleanText.trim();
+
+      const parsedQuiz = JSON.parse(cleanText);
+      setCustomQuiz(parsedQuiz);
+    } catch (error) {
+      console.error("Gemini Quiz API Error:", error);
+    } finally {
+      setIsQuizLoading(false);
+    }
+  };
+
+  const handleAnswerClick = (index) => {
+    if (selectedAnswer !== null) return;
+    setSelectedAnswer(index);
+    if (index === customQuiz[currentQuestionIdx].jawabanBenar) {
+      setQuizScore((prev) => prev + 1);
+    }
+    setShowExplanation(true);
+  };
+
+  const handleNextQuestion = () => {
+    setSelectedAnswer(null);
+    setShowExplanation(false);
+    if (currentQuestionIdx + 1 < customQuiz.length) {
+      setCurrentQuestionIdx((prev) => prev + 1);
+    } else {
+      setIsQuizFinished(true);
+    }
+  };
+
+  const resetCustomQuiz = () => {
+    setCustomQuiz([]);
+    setQuizTopic('');
+    setIsQuizFinished(false);
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      
+      {/* Intro Header */}
+      <div className="text-center bg-gradient-to-r from-orange-600/90 to-amber-500/90 text-white rounded-3xl p-6 shadow-2xl border border-orange-400/30 backdrop-blur-md">
+        <h2 className="text-3xl font-black mb-2 flex items-center justify-center gap-2">
+          <Sparkles className="animate-spin text-yellow-300" /> Ruang Belajar Pintar AI ✨
+        </h2>
+        <p className="text-orange-100 font-medium text-sm sm:text-base">Ajukan pertanyaan tak terbatas atau buat kuis kustom seru menggunakan kecerdasan AI Gemini!</p>
+        
+        {/* Sub Navigation */}
+        <div className="flex justify-center mt-6 bg-white/10 p-1 rounded-full max-w-sm mx-auto border border-white/20">
+          <button 
+            onClick={() => setAiTab('chat')}
+            className={`flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 ${aiTab === 'chat' ? 'bg-white text-orange-800 shadow-md scale-105' : 'text-white hover:bg-white/10'}`}
+          >
+            💬 Sahabat AI Kak Aisha
+          </button>
+          <button 
+            onClick={() => setAiTab('kuis')}
+            className={`flex-1 py-2 px-4 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 ${aiTab === 'kuis' ? 'bg-white text-orange-800 shadow-md scale-105' : 'text-white hover:bg-white/10'}`}
+          >
+            🎯 Kuis Kustom AI
+          </button>
+        </div>
+      </div>
+
+      {/* --- TAB 1: CHAT SAHABAT AI --- */}
+      {aiTab === 'chat' && (
+        <div className="bg-white/95 rounded-3xl shadow-2xl border border-orange-100 overflow-hidden flex flex-col h-[550px] backdrop-blur-md">
+          {/* Top Panel Chat */}
+          <div className="bg-orange-50 px-6 py-4 border-b border-orange-100 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="bg-orange-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-sm">
+                🧕
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800 leading-tight">Kak Aisha AI</h3>
+                <p className="text-xs text-orange-600 font-bold">Asisten Belajar Budaya Nusantara</p>
+              </div>
+            </div>
+            <div className="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold flex items-center gap-1 border border-emerald-200">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Online
+            </div>
+          </div>
+
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto p-6 space-y-4 bg-orange-50/20">
+            {chatHistory.map((msg, index) => (
+              <div 
+                key={index} 
+                className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shadow-sm shrink-0 ${
+                  msg.role === 'user' ? 'bg-indigo-600 text-white' : 'bg-orange-500 text-white'
+                }`}>
+                  {msg.role === 'user' ? '🙋‍♂️' : '🧕'}
+                </div>
+                <div className={`p-4 rounded-3xl text-sm leading-relaxed shadow-md ${
+                  msg.role === 'user' 
+                    ? 'bg-indigo-600 text-white rounded-tr-none' 
+                    : 'bg-white text-slate-800 rounded-tl-none border border-orange-100'
+                }`}>
+                  {msg.text}
+                </div>
+              </div>
+            ))}
+            {isChatLoading && (
+              <div className="flex gap-3 max-w-[80%]">
+                <div className="w-8 h-8 rounded-full bg-orange-500 text-white flex items-center justify-center shadow-sm">
+                  🧕
+                </div>
+                <div className="bg-white p-4 rounded-3xl rounded-tl-none border border-orange-100 flex items-center gap-2 shadow-sm">
+                  <span className="w-2.5 h-2.5 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                  <span className="w-2.5 h-2.5 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                  <span className="w-2.5 h-2.5 bg-orange-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Quick suggestions */}
+          <div className="px-6 py-2.5 bg-orange-50/40 border-t border-orange-100/50 overflow-x-auto whitespace-nowrap flex gap-2 no-scrollbar">
+            <button 
+              onClick={() => handleSuggest("Bagaimana Sunan Kudus merancang Masjid Menara Kudus?")}
+              className="bg-white text-xs text-orange-800 border border-orange-200/60 px-3.5 py-2 rounded-full hover:bg-orange-50 font-bold transition-all shadow-sm"
+            >
+              🕌 Masjid Kudus
+            </button>
+            <button 
+              onClick={() => handleSuggest("Kenapa batik diakui sebagai warisan budaya tak benda oleh UNESCO?")}
+              className="bg-white text-xs text-orange-800 border border-orange-200/60 px-3.5 py-2 rounded-full hover:bg-orange-50 font-bold transition-all shadow-sm"
+            >
+              👘 Warisan Batik
+            </button>
+            <button 
+              onClick={() => handleSuggest("Apa peran Sunan Kalijaga dalam kesenian Wayang Kulit?")}
+              className="bg-white text-xs text-orange-800 border border-orange-200/60 px-3.5 py-2 rounded-full hover:bg-orange-50 font-bold transition-all shadow-sm"
+            >
+              🎭 Wayang Sunan Kalijaga
+            </button>
+          </div>
+
+          {/* Form Chat */}
+          <form onSubmit={handleSendMessage} className="p-4 bg-white border-t border-orange-100 flex gap-2">
+            <input 
+              type="text" 
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              placeholder="Tanyakan apa saja seputar budaya kita..."
+              className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm font-medium"
+              disabled={isChatLoading}
+            />
+            <button 
+              type="submit" 
+              disabled={isChatLoading || !inputText.trim()}
+              className="bg-orange-600 text-white font-black p-3.5 rounded-2xl hover:bg-orange-700 transition-colors disabled:bg-slate-200 disabled:text-slate-400 shadow-md"
+            >
+              <Send size={18} />
+            </button>
+          </form>
+        </div>
+      )}
+
+      {/* --- TAB 2: KUIS KUSTOM AI --- */}
+      {aiTab === 'kuis' && (
+        <div className="bg-white/95 rounded-3xl p-6 md:p-8 shadow-2xl border border-orange-100 backdrop-blur-md">
+          {!customQuiz.length && !isQuizLoading && (
+            <div className="text-center py-6 space-y-6">
+              <div className="max-w-md mx-auto">
+                <Bot className="w-16 h-16 text-orange-500 mx-auto animate-bounce mb-3" />
+                <h3 className="text-xl font-black text-slate-800 mb-2">Tantang Dirimu dengan Topik Bebas! 🎯</h3>
+                <p className="text-sm text-slate-600 mb-6 font-medium">
+                  Ketik nama seni, adat istiadat, kuliner daerah, atau peninggalan sejarah (contoh: <b>Gamelan</b>, <b>Lumpia</b>, <b>Tari Piring</b>, atau <b>Keris</b>). AI akan menyusun kuis unik khusus untuk kamu!
+                </p>
+                <form onSubmit={handleGenerateCustomQuiz} className="flex flex-col sm:flex-row gap-2">
+                  <input 
+                    type="text" 
+                    value={quizTopic}
+                    onChange={(e) => setQuizTopic(e.target.value)}
+                    placeholder="Contoh: Seni Reog Ponorogo"
+                    className="flex-1 px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm font-semibold"
+                    required
+                  />
+                  <button 
+                    type="submit"
+                    className="bg-orange-600 hover:bg-orange-700 text-white font-black px-6 py-3.5 rounded-2xl transition-all shadow-md flex items-center justify-center gap-2 text-sm shrink-0"
+                  >
+                    Buat Kuis AI <Sparkles size={16} />
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {isQuizLoading && (
+            <div className="text-center py-16 space-y-4">
+              <RefreshCw className="w-12 h-12 text-orange-500 animate-spin mx-auto" />
+              <h4 className="text-lg font-black text-orange-700">Gemini AI sedang menyusun soal seru...</h4>
+              <p className="text-sm font-medium text-slate-500">Menganalisis warisan budaya dan mengemas kuis pintar.</p>
+            </div>
+          )}
+
+          {customQuiz.length > 0 && !isQuizFinished && (
+            <div className="space-y-6">
+              {/* Question Header */}
+              <div className="flex justify-between items-center border-b pb-4">
+                <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-black flex items-center gap-1 border border-orange-200">
+                  <BookOpenCheck size={14} /> Kuis Kustom: {quizTopic}
+                </span>
+                <span className="text-sm font-bold text-slate-500">
+                  Soal {currentQuestionIdx + 1} dari {customQuiz.length}
+                </span>
+              </div>
+
+              {/* Question Text */}
+              <div className="bg-amber-50/60 p-5 rounded-2xl border border-orange-100 shadow-sm">
+                <h3 className="text-lg font-bold text-slate-800 leading-relaxed">
+                  {customQuiz[currentQuestionIdx].pertanyaan}
+                </h3>
+              </div>
+
+              {/* Options */}
+              <div className="grid gap-3">
+                {customQuiz[currentQuestionIdx].pilihan.map((pilihan, idx) => {
+                  const isCorrectAnswer = idx === customQuiz[currentQuestionIdx].jawabanBenar;
+                  const isUserSelection = idx === selectedAnswer;
+                  
+                  let optionStyle = "border-slate-100 hover:border-orange-200 hover:bg-orange-50/50 text-slate-700";
+                  if (selectedAnswer !== null) {
+                    if (isCorrectAnswer) {
+                      optionStyle = "border-emerald-500 bg-emerald-50 text-emerald-800 font-black shadow-md";
+                    } else if (isUserSelection) {
+                      optionStyle = "border-rose-500 bg-rose-50 text-rose-800 font-black shadow-md";
+                    } else {
+                      optionStyle = "border-slate-100 opacity-50";
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => handleAnswerClick(idx)}
+                      disabled={selectedAnswer !== null}
+                      className={`w-full text-left px-5 py-3.5 rounded-2xl border-2 transition-all duration-200 flex items-center justify-between ${optionStyle}`}
+                    >
+                      <span className="flex items-center">
+                        <span className="inline-block w-7 h-7 rounded-full border border-current text-center leading-6 mr-3 text-xs font-black shrink-0">
+                          {String.fromCharCode(65 + idx)}
+                        </span>
+                        <span className="text-sm sm:text-base">{pilihan}</span>
+                      </span>
+                      {selectedAnswer !== null && isCorrectAnswer && (
+                        <CheckCircle2 size={18} className="text-emerald-600 shrink-0 ml-2" />
+                      )}
+                      {selectedAnswer !== null && isUserSelection && !isCorrectAnswer && (
+                        <XCircle size={18} className="text-rose-600 shrink-0 ml-2" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Explanation Panel */}
+              {showExplanation && (
+                <div className="bg-emerald-50 border border-emerald-200 p-5 rounded-2xl animate-in fade-in slide-in-from-bottom-2 shadow-inner">
+                  <h4 className="font-bold text-emerald-900 mb-1 flex items-center gap-1 text-sm sm:text-base">
+                    💡 Pembahasan Menarik Kak Aisha:
+                  </h4>
+                  <p className="text-sm text-emerald-950 leading-relaxed font-semibold">
+                    {customQuiz[currentQuestionIdx].pembahasan}
+                  </p>
+                  <button
+                    onClick={handleNextQuestion}
+                    className="mt-4 bg-orange-600 hover:bg-orange-700 text-white font-black py-2.5 px-6 rounded-full text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 ml-auto"
+                  >
+                    Lanjut Soal Berikutnya <ArrowRight size={16} />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Quiz End Result */}
+          {isQuizFinished && (
+            <div className="text-center py-8 space-y-6 animate-in zoom-in-95">
+              <div className="w-24 h-24 bg-orange-100 rounded-full flex items-center justify-center mx-auto shadow-inner">
+                <Award className="text-orange-500 w-12 h-12" />
+              </div>
+              <div>
+                <h3 className="text-3xl font-black text-slate-800">Maa Syaa Allah, Hebat!</h3>
+                <p className="text-slate-500 mt-2 font-semibold">Kamu menyelesaikan kuis kustom dengan topik <span className="font-bold text-orange-600">{quizTopic}</span>.</p>
+              </div>
+
+              <div className="max-w-xs mx-auto bg-amber-50/80 p-4 rounded-2xl border border-orange-100 shadow-md">
+                <p className="text-sm text-slate-600 font-bold mb-1">Skor Akhir</p>
+                <div className="text-5xl font-black text-orange-600">
+                  {Math.round((quizScore / customQuiz.length) * 100)}
+                  <span className="text-xl text-slate-400 font-bold">/100</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-2 font-semibold">({quizScore} dari {customQuiz.length} Jawaban Benar)</p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row justify-center gap-3">
+                <button
+                  onClick={resetCustomQuiz}
+                  className="bg-orange-100 hover:bg-orange-200 text-orange-900 font-bold py-3 px-6 rounded-full transition-all text-sm shadow-sm"
+                >
+                  Coba Topik Lain 🔄
+                </button>
+                <button
+                  onClick={() => setAiTab('chat')}
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition-all text-sm shadow-sm"
+                >
+                  Tanya Kak Aisha 💬
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
